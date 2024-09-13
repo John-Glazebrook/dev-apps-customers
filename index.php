@@ -35,9 +35,6 @@ ORDER BY
 ";
 $result = $conn->query($sql);
 
-
-
-
 ?>
 
 <!doctype html>
