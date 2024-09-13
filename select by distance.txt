@@ -1,0 +1,27 @@
+-- Declare variables for TR1 3XX coordinates
+SET @tr16_4en_lat = 50.262794;
+SET @tr16_4en_lon = -5.100783;
+
+-- Here's the updated query to select all customers and their distances from TR1 3XX
+SELECT 
+    id,
+    first,
+    last,
+    email,
+    age,
+    post_code,
+    lat AS customer_lat,
+    lon AS customer_lon,
+    @tr16_4en_lat AS tr16_4en_lat,
+    @tr16_4en_lon AS tr16_4en_lon,
+    6371 * 2 * ASIN(SQRT(
+        POWER(SIN((@tr16_4en_lat - lat) * pi()/180 / 2), 2) +
+        COS(lat * pi()/180) * COS(@tr16_4en_lat * pi()/180) *
+        POWER(SIN((@tr16_4en_lon - lon) * pi()/180 / 2), 2)
+    )) AS distance_km
+FROM 
+    customers
+ORDER BY 
+    distance_km;
+    
+   
